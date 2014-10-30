@@ -10,7 +10,7 @@ use XML::Generator::PerlData;
 
 use Moo;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 has 'ua', is => 'ro', default => sub {
     Furl->new(
@@ -77,7 +77,12 @@ sub _gen_xml {
     my $generator = XML::Generator::PerlData->new(
         Handler  => XML::SAX::Writer->new(Output => \$xml),
         rootname => 'EnviarInstrucao',
-        keymap   => { '*' => \&String::CamelCase::camelize },
+        keymap   => {
+            '*' => \&String::CamelCase::camelize,
+            'url_notificacao' => 'URLNotificacao',
+            'url_logo'        => 'URLLogo',
+            'url_retorno'     => 'URLRetorno',
+        },
         attrmap  => { InstrucaoUnica => ['TipoValidacao']  },
     );
 
@@ -122,10 +127,12 @@ Net::Moip - Interface com o gateway de pagamentos Moip
     );
 
     my $resposta = $gateway->pagamento_unico({
-        razao          => 'Pagamento para a Loja X',
-        tipo_validacao => 'Transparente',
-        valor          => 59.90,
-        id_proprio     => 1,
+        razao           => 'Pagamento para a Loja X',
+        tipo_validacao  => 'Transparente',
+        valor           => 59.90,
+        id_proprio      => 1,
+        url_retorno     => 'http://exemplo.com/callback',
+        url_notificacao => 'http://exemplo.com/notify',
         pagador => {
             id_pagador => 1,
             nome       => 'Cebolácio Júnior Menezes da Silva',
