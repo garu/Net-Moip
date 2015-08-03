@@ -10,13 +10,19 @@ use XML::Generator::PerlData;
 
 use Moo;
 
-our $VERSION = 0.03;
+our $VERSION = 0.04;
 
 has 'ua', is => 'ro', default => sub {
     Furl->new(
         agent         => "Net-Moip/$VERSION",
         timeout       => 5,
         max_redirects => 3,
+        # <perigrin> "SSL Wants a read first" I think is suggesting you
+        # haven't read OpenSSL a bedtime story in too long and perhaps
+        # it's feeling neglected and lonely?
+        # see also: https://metacpan.org/pod/IO::Socket::SSL#SNI-Support
+        # https://metacpan.org/pod/Furl#FAQ
+        # https://rt.cpan.org/Public/Bug/Display.html?id=86684
         ssl_opts => { SSL_verify_mode => SSL_VERIFY_PEER() }
     );
 };
@@ -28,7 +34,7 @@ has 'key', is => 'ro', required => 1;
 has 'api_url', (
     is      => 'ro',
     writer  => '_set_api_url',
-    default => 'https://www.moip.com.br/ws/alpha/EnviarInstrucao/Unica'
+    default => 'https://api.moip.com.br/ws/alpha/EnviarInstrucao/Unica'
 );
 
 has 'sandbox', (
@@ -38,7 +44,7 @@ has 'sandbox', (
         my ($self, $sandbox) = @_;
         $self->_set_api_url( $sandbox
             ? 'https://desenvolvedor.moip.com.br/sandbox/ws/alpha/EnviarInstrucao/Unica'
-            : 'https://www.moip.com.br/ws/alpha/EnviarInstrucao/Unica'
+            : 'https://api.moip.com.br/ws/alpha/EnviarInstrucao/Unica'
         );
     }
 );
@@ -259,7 +265,7 @@ L<https://desenvolvedor.moip.com.br>
 
 =head1 LICENÇA E COPYRIGHT
 
-Copyright 2014 Breno G. de Oliveira C<< garu at cpan.org >>. Todos os direitos reservados.
+Copyright 2014-2015 Breno G. de Oliveira C<< garu at cpan.org >>. Todos os direitos reservados.
 
 Este módulo é software livre; você pode redistribuí-lo e/ou modificá-lo sob os mesmos
 termos que o Perl. Veja a licença L<perlartistic> para mais informações.

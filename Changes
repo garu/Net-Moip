@@ -1,5 +1,9 @@
 Revision history for Net-Moip
 
+0.04    2015-08-03
+    - atualização dos novos endpoints do Moip. A partir de 30/9/2015
+      o endpoint antigo (www.moip.com.br) será DESATIVADO.
+
 0.03    2014-11-14
     - novo atributo "decode_as"
     - monta XML em iso-8859-1, conforme exigido pelo Moip
