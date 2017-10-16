@@ -293,7 +293,7 @@ L<https://desenvolvedor.moip.com.br>
 
 =head1 LICENÇA E COPYRIGHT
 
-Copyright 2014-2015 Breno G. de Oliveira C<< garu at cpan.org >>. Todos os direitos reservados.
+Copyright 2014-2017 Breno G. de Oliveira C<< garu at cpan.org >>. Todos os direitos reservados.
 
 Este módulo é software livre; você pode redistribuí-lo e/ou modificá-lo sob os mesmos
 termos que o Perl. Veja a licença L<perlartistic> para mais informações.
