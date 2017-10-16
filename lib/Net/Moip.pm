@@ -120,6 +120,14 @@ sub _gen_xml {
 
     $generator->parse( $xml_args );
 
+    # FIXME: XML::Generator::PerlData does not know how to handle
+    # elements with attributes *and* (leaf) data inside. And of course
+    # Moip requires just that.
+    if (exists $xml_args->{instrucao_unica}{pagador}{identidade}) {
+        $xml =~ s{<Identidade>(\d+)</Identidade>}
+                 {<Identidade Tipo="CPF">$1</Identidade>};
+    }
+
     return $xml;
 }
 
